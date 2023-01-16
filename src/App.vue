@@ -4,10 +4,18 @@
       <a href="" v-for="(navi, i) in navis" :key="i">{{ navi }}</a>
     </nav>
     <div class="list" v-for="(item, i) in items" :key="i">
-      <h3>{{ items[i] }}</h3>
+      <h3 @click="modal = true">{{ items[i] }}</h3>
       <p>{{ prices[i] }}</p>
-      <button @click="report += 1">허위매물신고</button>
-      <span>신고수: {{ report }}</span>
+      <button @click="increase(i)">허위매물신고</button>
+      <span>신고수: {{ report[i] }}</span>
+    </div>
+  </div>
+
+  <div class="modal" v-if="modal === true">
+    <div class="white_bg">
+      <div class="close" @click="modal = false">닫기</div>
+      <h4>상세</h4>
+      <p>상세내용</p>
     </div>
   </div>
 </template>
@@ -17,17 +25,45 @@ export default {
   name: "App",
   data() {
     return {
-      report: 0,
+      modal: false,
+      report: [0, 1, 2],
       navis: ["Home", "shop", "about"],
       items: ["역삼동원룸", "천호동원룸", "마포구원룸"],
       prices: ["100", "200", "300"],
     };
   },
   components: {},
+  methods: {
+    increase(i) {
+      this.report[i] += 1;
+    },
+  },
 };
 </script>
 
 <style lang="scss">
+.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 1rem;
+}
+.modal {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  padding: 20px;
+}
+.white_bg {
+  position: relative;
+  border-radius: 10px;
+  width: 100%;
+  height: 300px;
+  background: white;
+  padding: 20px;
+}
 .list {
   padding: 1rem 0;
 }
